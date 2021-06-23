@@ -20,8 +20,8 @@ headers2 = {
 def shuru():
     # s1 = input('账号:')
     # s2 = input('密码:')
-    s1 = '15397106465'
-    s2 = 'qq975278060'
+    s1 = 'xx'
+    s2 = 'xx'
     return s1, s2
 
 

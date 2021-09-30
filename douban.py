@@ -1,4 +1,5 @@
 import base64
+import random
 
 import requests
 import urllib.request
@@ -16,12 +17,13 @@ headers1 = {
 headers2 = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64)AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 Safari/537.36',
 }
-
+login_list = [{'user': '15397106465', 'pas': 'qq975278060'}]
+name = random.choice(login_list)
 def shuru():
     # s1 = input('账号:')
     # s2 = input('密码:')
-    s1 = 'xx'
-    s2 = 'xx'
+    s1 = name['user']
+    s2 = name['pas']
     return s1, s2
 
 
@@ -32,7 +34,7 @@ def ocr(content):
     img = base64.b64encode(content)
 
     # client_id 为官网获取的AK， client_secret 为官网获取的SK
-    host = 'https://aip.baidubce.com/oauth/2.0/token?grant_type=client_credentials&client_id=xxx&client_secret=xxxx'
+    host = 'https://aip.baidubce.com/oauth/2.0/token?grant_type=client_credentials&client_id=GaFltpbMuD2Ly9CsAAUcAAu1&client_secret=cg7jyi9rsQs0LIuzdb0tGyvy8afsq4hr'
     response = requests.get(host, timeout=5)
     if response:
         access_token = response.json()["access_token"]
@@ -52,6 +54,7 @@ def denglu(s1,s2):
         'name': s1,
         'password': s2,
     }
+    print('******当前登录的账号为：{},密码：{}'.format(s1,s2))
     response1 = session.post(url_login, headers=headers1, data=data_login)
     print(response1.json()['description'])
     if response1.json()['description'] == '需要图形验证码':
@@ -59,25 +62,6 @@ def denglu(s1,s2):
         huadong()
         print('******豆瓣评论完成')
         exit(0)
-    if response1.json()['description'] == '用户名或密码错误':
-        print('******用户名或密码错误')
-        s1, s2 = shuru()
-        denglu(s1, s2)
-        exit(0)
-    response2 = session.get('https://www.douban.com/', headers=headers2)
-    ck = response2.cookies['ck']
-    print('登录成功')
-    data_comment = {
-        'ck': ck,
-        'comment': input('请输入评论:'),
-        'privacy_and_reply_limit': 'P,',
-    }
-    url_comment = 'https://www.douban.com/'
-    response3 = session.post(url_comment, headers=headers2, data=data_comment)
-    if response3.status_code == 200:
-        print('发表成功')
-    else:
-        print('发表失败')
 def shibie(driver):
     image1 = driver.find_element_by_xpath('//*[@id="slideBg"]').get_attribute('src')
     image2 = driver.find_element_by_xpath('//*[@id="slideBlock"]').get_attribute('src')
@@ -100,7 +84,7 @@ def shibie(driver):
         shuaxin = driver.find_element_by_xpath('//*[@id="reload"]/div')
         shuaxin.click()
         time.sleep(1)
-        y = shibie()
+        y = shibie(driver)
     return y
 def huadong():
     chrome_options = Options()
@@ -135,7 +119,7 @@ def huadong():
     time.sleep(2)
     print('*******登陆成功')
     # 231464271 231461887 231462356 231463947
-    id_url = ['231461887', '231462356', '231463947']
+    id_url = [ '235293143','235293706']
     for i in id_url:  # 第二个实例
         pinglun(i,driver)
 def pinglun(i,driver):
@@ -144,7 +128,7 @@ def pinglun(i,driver):
     print('*******开始评论,当前评论url为:{}'.format(url))
     driver.execute_script("arguments[0].click()",driver.find_element_by_xpath("//textarea[@id='last']"))
     driver.find_element_by_xpath("//textarea[@id='last']").clear()
-    driver.find_element_by_xpath("//textarea[@id='last']").send_keys("祝考研上岸")
+    driver.find_element_by_xpath("//textarea[@id='last']").send_keys("没剩几天了 加油")
     # 判断有没有验证码
     try:
         url = driver.find_element_by_xpath('//*[@id="captcha_image"]').get_attribute('src')

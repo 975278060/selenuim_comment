@@ -17,7 +17,7 @@ headers1 = {
 headers2 = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64)AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 Safari/537.36',
 }
-login_list = [{'user': '15397106465', 'pas': 'qq975278060'}]
+login_list = [{'user': 'xxx', 'pas': 'xxx'}]
 name = random.choice(login_list)
 def shuru():
     # s1 = input('账号:')
